@@ -14,6 +14,7 @@ CHANNELS = {
     "tickets_panel": "a config",
     "tickets_category": "a config",
     "tickets_logs": "a config",
+    "rdv_planning": "a config",         # Salon pour afficher le planning des RDV
     "absences": "a config",
     "suggestions": "a config",
     "registration": 1137518581291171941,
@@ -21,7 +22,7 @@ CHANNELS = {
     "tarif": "a config",
     "meeting_report": "a config",
     "announcements": "a config",
-    "grade_requests": "a config",  # Salon pour les demandes de grade
+    "grade_requests": "a config",       # Salon pour les demandes de grade
     "project": 1137513227002069132,
 }
 
