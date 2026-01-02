@@ -12,14 +12,14 @@ class SetupAllCog(commands.Cog):
         self.bot = bot
 
     async def cog_load(self):
-        from cogs.tickets import TicketPanelView, TicketManagementView, CloseConfirmView
+        from cogs.tickets import TicketPanelView, TicketManagementView, CloseConfirmView, PlanningManagementView
         from cogs.absences import AbsencesPanelView
         from cogs.registration import ValidationView, RegisterButtonView
         from cogs.suggestions import SuggestionView
         from cogs.meeting_report import ReportPanelView, ReportValidationView
         from cogs.grade_request import GradeRequestPanelView, GradeValidationView
         
-        for v in [TicketPanelView(), TicketManagementView(), CloseConfirmView(), AbsencesPanelView(), ValidationView(), RegisterButtonView(), SuggestionView(), ReportPanelView(), ReportValidationView(), GradeRequestPanelView(), GradeValidationView()]:
+        for v in [TicketPanelView(), TicketManagementView(), CloseConfirmView(), PlanningManagementView(self.bot), AbsencesPanelView(), ValidationView(), RegisterButtonView(), SuggestionView(), ReportPanelView(), ReportValidationView(), GradeRequestPanelView(), GradeValidationView()]:
             self.bot.add_view(v)
         
         print("✅ Vues persistantes chargées.")
@@ -30,7 +30,9 @@ class SetupAllCog(commands.Cog):
         if not self.bot.pool:
             return
         try:
+            from cogs.tickets import update_planning_embed
             from cogs.absences import update_absences_embed
+            await update_planning_embed(self.bot)
             await update_absences_embed(self.bot)
         except Exception as e:
             print(f"Erreur restore: {e}")
@@ -100,6 +102,13 @@ class SetupAllCog(commands.Cog):
             await recreate_absences_panel(self.bot)
             ok.append("Absences")
         except Exception as e: err.append(f"Absences: {e}")
+        
+        # Planning RDV
+        try:
+            from cogs.tickets import recreate_planning_panel
+            await recreate_planning_panel(self.bot)
+            ok.append("Planning RDV")
+        except Exception as e: err.append(f"Planning RDV: {e}")
         
         # Tarifs
         try:
@@ -298,6 +307,13 @@ class SetupAllCog(commands.Cog):
             await recreate_absences_panel(self.bot)
             ok.append("Absences")
         except Exception as e: err.append(f"Absences: {e}")
+        
+        # Planning RDV
+        try:
+            from cogs.tickets import recreate_planning_panel
+            await recreate_planning_panel(self.bot)
+            ok.append("Planning RDV")
+        except Exception as e: err.append(f"Planning RDV: {e}")
         
         # Tarifs
         try:
