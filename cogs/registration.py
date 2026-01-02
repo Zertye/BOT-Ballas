@@ -11,8 +11,7 @@ STAFF_VALIDATION_CHANNEL_ID = CHANNELS.get("requests_validation")
 
 
 class RegistrationModal(discord.ui.Modal, title="Enregistrement"):
-    nom = discord.ui.TextInput(label="Nom", placeholder="Dupont")
-    prenom = discord.ui.TextInput(label="Prénom", placeholder="Jean")
+    pseudo = discord.ui.TextInput(label="Pseudo", placeholder="Ton pseudo RP")
     id_game = discord.ui.TextInput(label="ID en jeu", placeholder="0", max_length=10)
 
     async def on_submit(self, interaction: discord.Interaction):
@@ -26,10 +25,11 @@ class RegistrationModal(discord.ui.Modal, title="Enregistrement"):
         embed = discord.Embed(color=EMBED_COLOR)
         embed.set_author(name="📋 Nouvelle demande d'enregistrement", icon_url=LOGO_URL if LOGO_URL != "a config" else None)
         embed.set_thumbnail(url=interaction.user.display_avatar.url)
-        embed.add_field(name="Identité", value=f"{self.nom.value.capitalize()} {self.prenom.value.capitalize()}", inline=True)
+        embed.add_field(name="Pseudo", value=self.pseudo.value, inline=True)
         embed.add_field(name="ID", value=self.id_game.value, inline=True)
         embed.add_field(name="Discord", value=interaction.user.mention, inline=False)
-        embed.set_footer(text=f"{interaction.user.id}|{self.nom.value}|{self.prenom.value}|{self.id_game.value}")
+        # On stocke les infos simplifiées dans le footer : ID|Pseudo|ID_Jeu
+        embed.set_footer(text=f"{interaction.user.id}|{self.pseudo.value}|{self.id_game.value}")
         
         await channel.send(embed=embed, view=ValidationView())
         await interaction.response.send_message("✅ Demande envoyée aux hauts-gradés.", ephemeral=True)
@@ -42,8 +42,11 @@ class ValidationView(discord.ui.View):
     @discord.ui.button(label="Accepter", style=discord.ButtonStyle.success, custom_id="reg_accept_ballas")
     async def accept(self, interaction: discord.Interaction, button: discord.ui.Button):
         try:
+            # Récupération du nouveau format : ID|Pseudo|ID_Jeu
             meta = interaction.message.embeds[0].footer.text.split("|")
-            user_id, nom, prenom, id_game = int(meta[0]), meta[1].capitalize(), meta[2].capitalize(), meta[3]
+            user_id = int(meta[0])
+            pseudo = meta[1]
+            id_game = meta[2]
         except:
             return await interaction.response.send_message("❌ Erreur données.", ephemeral=True)
         
@@ -51,7 +54,8 @@ class ValidationView(discord.ui.View):
         if not member:
             return await interaction.response.send_message("❌ Membre parti.", ephemeral=True)
         
-        nick = f"{nom} {prenom} | {id_game}"
+        # Nouveau format de pseudo
+        nick = f"{pseudo} | {id_game}"
         try: await member.edit(nick=nick)
         except: pass
         
