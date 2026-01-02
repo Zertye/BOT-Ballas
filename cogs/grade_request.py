@@ -192,7 +192,10 @@ class GradeValidationView(discord.ui.View):
         role = interaction.guild.get_role(role_id)
         if member:
             try:
-                dm = discord.Embed(color=Colors.ERROR, description=f"Ta demande pour le grade **{role.name if role else 'inconnu'}** a été refusée.")
+                description = f"Ta demande pour le grade **{role.name if role else 'inconnu'}** a été refusée.\n\n"
+                description += "**Rappel :** pour obtenir le grade citoyen merci de vous enregistrer dans https://discord.com/channels/1137511104487112724/1456661043731501056"
+                
+                dm = discord.Embed(color=Colors.ERROR, description=description)
                 dm.set_author(name="❌ Demande refusée", icon_url=LOGO_URL)
                 await member.send(embed=dm)
             except: pass
