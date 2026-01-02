@@ -47,8 +47,13 @@ class BallasBot(commands.Bot):
         # Sync des commandes vers le serveur
         guild = discord.Object(id=GUILD_ID)
         self.tree.copy_global_to(guild=guild)
-        synced = await self.tree.sync(guild=guild)
-        print(f"✅ {len(synced)} commandes synchronisées")
+        try:
+            synced = await self.tree.sync(guild=guild)
+            print(f"✅ {len(synced)} commandes synchronisées")
+        except discord.errors.Forbidden:
+            print("❌ Échec de la synchro des commandes : 'Missing Access'. Vérifie que le bot a bien le scope 'applications.commands' dans son invitation.")
+        except Exception as e:
+            print(f"❌ Erreur synchro : {e}")
 
     async def close(self):
         if self.pool:
