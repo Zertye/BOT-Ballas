@@ -11,33 +11,33 @@ BANNER_URL = https://cdn.discordapp.com/attachments/1443995816233664606/14566553
 
 # --- SALONS ---
 CHANNELS = {
-    "tickets_panel": "a config",
-    "tickets_category": "a config",
-    "tickets_logs": "a config",
-    "rdv_planning": "a config",         # Salon pour afficher le planning des RDV
-    "absences": "a config",
-    "suggestions": "a config",
+    "tickets_panel": 1456657984846303324,
+    "tickets_category": 1137511728658255993,
+    "tickets_logs": 1456658356088606761,
+    "rdv_planning": 1456659575250882641,         # Salon pour afficher le planning des RDV
+    "absences": 1456660099824353455,
+    "suggestions": 1456660199178764561,
     "registration": 1137518581291171941,
-    "welcome": "a config",
+    "welcome": 1137511105279832093,
     "tarif": "a config",
-    "meeting_report": "a config",
-    "announcements": "a config",
-    "grade_requests": "a config",       # Salon pour les demandes de grade
+    "meeting_report": 1456660524673667233,
+    "announcements": 1456660887980081473,
+    "grade_requests": 1456661043731501056,       # Salon pour les demandes de grade
     "project": 1137513227002069132,
 }
 
 # --- RÔLES ---
 ROLES = {
-    "support": "a config",              # Rôle staff général (gestion absences, grades, etc.)
-    "super_admin": "a config",          # Administrateur
-    "citoyen": "a config",              # Rôle donné après enregistrement
-    "tarif_manager": "a config",        # Peut gérer le catalogue
-    "report_validator": "a config",     # Peut valider les comptes rendus
+    "support": 1137518847327485952,              # Rôle staff général (gestion absences, grades, etc.)
+    "super_admin": 1137518847327485952,          # Administrateur
+    "citoyen": 1450663368959590420,              # Rôle donné après enregistrement
+    "tarif_manager": 1137518847327485952,        # Peut gérer le catalogue
+    "report_validator": 1137518847327485952,     # Peut valider les comptes rendus
     
     # Rôles par catégorie de ticket
-    "ticket_rdv": "a config",           # Notifié pour les tickets Rendez-vous
-    "ticket_achat": "a config",         # Notifié pour les tickets Achat
-    "ticket_autre": "a config",         # Notifié pour les tickets Autre
+    "ticket_rdv": 1456661487253979299,           # Notifié pour les tickets Rendez-vous
+    "ticket_achat": 1456661605969301504,         # Notifié pour les tickets Achat
+    "ticket_autre": 1456661666564669451,         # Notifié pour les tickets Autre
 }
 
 GUILD_ID = 1137511104487112724
