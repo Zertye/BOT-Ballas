@@ -212,7 +212,8 @@ class SetupAllCog(commands.Cog):
         embed.set_author(name="📊 Statut", icon_url=LOGO_URL if LOGO_URL != "a config" else None)
         embed.add_field(name="BDD", value="✅ Connectée" if self.bot.pool else "❌ Déconnectée", inline=True)
         
-        ch_status = "\n".join([f"{'✅' if ctx.guild.get_channel(v) if isinstance(v, int) else False else '❌'} {k}" for k, v in CHANNELS.items()][:10])
+        # Correction ici : vérification de type d'abord, puis du salon
+        ch_status = "\n".join([f"{'✅' if isinstance(v, int) and ctx.guild.get_channel(v) else '❌'} {k}" for k, v in CHANNELS.items()][:10])
         embed.add_field(name="Salons", value=ch_status, inline=False)
         
         if self.bot.pool:
