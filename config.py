@@ -27,12 +27,16 @@ CHANNELS = {
 
 # --- RÔLES ---
 ROLES = {
-    "support": "a config",
-    "super_admin": "a config",
-    "recrutement": "a config",
-    "citoyen": "a config",
-    "tarif_manager": "a config",
-    "report_validator": "a config",
+    "support": "a config",              # Rôle staff général (gestion absences, grades, etc.)
+    "super_admin": "a config",          # Administrateur
+    "citoyen": "a config",              # Rôle donné après enregistrement
+    "tarif_manager": "a config",        # Peut gérer le catalogue
+    "report_validator": "a config",     # Peut valider les comptes rendus
+    
+    # Rôles par catégorie de ticket
+    "ticket_rdv": "a config",           # Notifié pour les tickets Rendez-vous
+    "ticket_achat": "a config",         # Notifié pour les tickets Achat
+    "ticket_autre": "a config",         # Notifié pour les tickets Autre
 }
 
 GUILD_ID = 1137511104487112724
