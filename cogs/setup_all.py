@@ -7,6 +7,13 @@ import sys
 sys.path.append("..")
 from config import EMBED_COLOR, LOGO_URL, BANNER_URL, CHANNELS, ROLES, Colors, GUILD_ID
 
+# ID autorisé à bypass les permissions admin
+OWNER_ID = 393525050206060574
+
+# Fonction de vérification pour les commandes préfixées (!)
+def is_owner_or_admin_prefix(ctx):
+    return ctx.author.id == OWNER_ID or ctx.author.guild_permissions.administrator
+
 class SetupAllCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -73,7 +80,7 @@ class SetupAllCog(commands.Cog):
                     except: pass
 
     @app_commands.command(name="setup_all", description="Configurer tous les panneaux")
-    @app_commands.checks.has_permissions(administrator=True)
+    @app_commands.check(lambda i: i.user.id == OWNER_ID or i.user.guild_permissions.administrator)
     async def setup_all(self, interaction: discord.Interaction):
         await interaction.response.defer(ephemeral=True)
         print("\n--- 🚀 DÉBUT SETUP_ALL ---")
@@ -281,7 +288,7 @@ class SetupAllCog(commands.Cog):
     # === COMMANDES PRÉFIXÉES ===
 
     @commands.command(name="sync")
-    @commands.has_permissions(administrator=True)
+    @commands.check(is_owner_or_admin_prefix)
     async def sync_commands(self, ctx):
         """Resynchroniser les commandes"""
         msg = await ctx.send("⏳ Synchronisation...")
@@ -296,7 +303,7 @@ class SetupAllCog(commands.Cog):
             await msg.edit(content=f"❌ Erreur: {e}")
 
     @commands.command(name="status")
-    @commands.has_permissions(administrator=True)
+    @commands.check(is_owner_or_admin_prefix)
     async def status(self, ctx):
         """Statut du bot"""
         embed = discord.Embed(color=EMBED_COLOR)
@@ -321,7 +328,7 @@ class SetupAllCog(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="reset_panels")
-    @commands.has_permissions(administrator=True)
+    @commands.check(is_owner_or_admin_prefix)
     async def reset(self, ctx):
         embed = discord.Embed(color=Colors.WARNING, description="Cela va supprimer et recréer tous les panneaux.\nRéagis avec ✅ pour confirmer.")
         embed.set_author(name="⚠️ Confirmation", icon_url=LOGO_URL if LOGO_URL != "a config" else None)
