@@ -27,6 +27,7 @@ class BallasBot(commands.Bot):
                 print("✅ PostgreSQL connecté")
                 async with self.pool.acquire() as conn:
                     await conn.execute("CREATE TABLE IF NOT EXISTS ticket_logs (ticket_id BIGINT PRIMARY KEY, user_id BIGINT, transcript TEXT, closed_at TIMESTAMP DEFAULT NOW())")
+                    await conn.execute("CREATE TABLE IF NOT EXISTS rdv_planning (id SERIAL PRIMARY KEY, user_id BIGINT, staff_id BIGINT, day TEXT, hour TEXT, rdv_timestamp BIGINT, channel_id BIGINT, created_at TIMESTAMP DEFAULT NOW())")
                     await conn.execute("CREATE TABLE IF NOT EXISTS persistent_messages (key TEXT PRIMARY KEY, message_id BIGINT, channel_id BIGINT)")
                     await conn.execute("CREATE TABLE IF NOT EXISTS staff_absences (id SERIAL PRIMARY KEY, staff_id BIGINT NOT NULL, start_date TEXT NOT NULL, end_date TEXT NOT NULL, reason TEXT, created_at TIMESTAMP DEFAULT NOW())")
                     await conn.execute("CREATE TABLE IF NOT EXISTS ballas_catalog (id SERIAL PRIMARY KEY, name TEXT UNIQUE NOT NULL, description TEXT, price DECIMAL(10,2) NOT NULL, category TEXT NOT NULL)")
