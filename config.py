@@ -28,8 +28,8 @@ CHANNELS = {
 
 # --- RÔLES ---
 ROLES = {
-    "support": 1137518847327485952,              # Rôle staff général (gestion absences, grades, etc.)
-    "super_admin": 1137518847327485952,          # Administrateur
+    "support": 1456668708599500987,              # Rôle staff général (gestion absences, grades, etc.)
+    "super_admin": 1456668708599500987,          # Administrateur
     "citoyen": 1450663368959590420,              # Rôle donné après enregistrement
     "tarif_manager": 1137518847327485952,        # Peut gérer le catalogue
     "report_validator": 1137518847327485952,     # Peut valider les comptes rendus
