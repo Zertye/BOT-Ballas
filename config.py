@@ -7,7 +7,7 @@ EMBED_COLOR = 0x800080  # Violet (couleur des Ballas)
 LOGO_URL = "https://cdn.discordapp.com/attachments/1443995816233664606/1456655396973445314/Ballas.png"
 
 # Bannière (thumbnail sur panneaux principaux)
-BANNER_URL = https://cdn.discordapp.com/attachments/1443995816233664606/1456655396973445314/Ballas.png"
+BANNER_URL = "https://cdn.discordapp.com/attachments/1443995816233664606/1456655396973445314/Ballas.png"
 
 # --- SALONS ---
 CHANNELS = {
