@@ -6,7 +6,8 @@ import sys
 sys.path.append("..")
 from config import EMBED_COLOR, LOGO_URL, BANNER_URL, CHANNELS, ROLES, Colors
 
-STAFF_VALIDATION_CHANNEL_ID = CHANNELS.get("grade_requests")
+# On utilise le nouveau salon de validation centralisé
+STAFF_VALIDATION_CHANNEL_ID = CHANNELS.get("requests_validation")
 
 
 class RegistrationModal(discord.ui.Modal, title="Enregistrement"):
@@ -20,10 +21,10 @@ class RegistrationModal(discord.ui.Modal, title="Enregistrement"):
         
         channel = interaction.guild.get_channel(STAFF_VALIDATION_CHANNEL_ID)
         if not channel:
-            return await interaction.response.send_message("❌ Erreur de configuration.", ephemeral=True)
+            return await interaction.response.send_message("❌ Erreur de configuration (Salon validation introuvable).", ephemeral=True)
         
         embed = discord.Embed(color=EMBED_COLOR)
-        embed.set_author(name="Nouvelle demande d'enregistrement", icon_url=LOGO_URL if LOGO_URL != "a config" else None)
+        embed.set_author(name="📋 Nouvelle demande d'enregistrement", icon_url=LOGO_URL if LOGO_URL != "a config" else None)
         embed.set_thumbnail(url=interaction.user.display_avatar.url)
         embed.add_field(name="Identité", value=f"{self.nom.value.capitalize()} {self.prenom.value.capitalize()}", inline=True)
         embed.add_field(name="ID", value=self.id_game.value, inline=True)
@@ -61,8 +62,9 @@ class ValidationView(discord.ui.View):
         
         embed = interaction.message.embeds[0]
         embed.color = Colors.SUCCESS
-        embed.set_author(name="✅ Validé", icon_url=LOGO_URL if LOGO_URL != "a config" else None)
-        embed.add_field(name="Par", value=interaction.user.mention)
+        embed.set_author(name="✅ Enregistrement Validé", icon_url=LOGO_URL if LOGO_URL != "a config" else None)
+        embed.add_field(name="Validé par", value=interaction.user.mention, inline=False)
+        
         for c in self.children: c.disabled = True
         await interaction.message.edit(embed=embed, view=self)
         await interaction.response.send_message(f"✅ {nick} enregistré.", ephemeral=True)
@@ -82,8 +84,9 @@ class ValidationView(discord.ui.View):
         
         embed = interaction.message.embeds[0]
         embed.color = Colors.ERROR
-        embed.set_author(name="❌ Refusé", icon_url=LOGO_URL if LOGO_URL != "a config" else None)
-        embed.add_field(name="Par", value=interaction.user.mention)
+        embed.set_author(name="❌ Enregistrement Refusé", icon_url=LOGO_URL if LOGO_URL != "a config" else None)
+        embed.add_field(name="Refusé par", value=interaction.user.mention, inline=False)
+        
         for c in self.children: c.disabled = True
         await interaction.message.edit(embed=embed, view=self)
         await interaction.response.send_message("Refusé.", ephemeral=True)
@@ -91,7 +94,7 @@ class ValidationView(discord.ui.View):
         member = interaction.guild.get_member(user_id)
         if member:
             try:
-                dm = discord.Embed(color=Colors.ERROR, description="Ta demande a été refusée. Vérifie tes informations.")
+                dm = discord.Embed(color=Colors.ERROR, description="Ta demande d'enregistrement a été refusée.")
                 dm.set_author(name="Enregistrement refusé", icon_url=LOGO_URL if LOGO_URL != "a config" else None)
                 await member.send(embed=dm)
             except: pass
@@ -114,6 +117,7 @@ class RegistrationCog(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def setup(self, ctx):
         """Installer le panneau d'enregistrement"""
+        # Le panneau va dans le salon défini par 'registration' dans config.py
         embed = discord.Embed(color=EMBED_COLOR, description="Clique ci-dessous pour t'enregistrer.")
         embed.set_author(name="📋 Enregistrement", icon_url=LOGO_URL if LOGO_URL != "a config" else None)
         if BANNER_URL and BANNER_URL != "a config":
