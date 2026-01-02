@@ -59,9 +59,16 @@ class ValidationView(discord.ui.View):
         try: await member.edit(nick=nick)
         except: pass
         
+        # Ajout du rôle Citoyen
         role = interaction.guild.get_role(ROLES.get("citoyen"))
         if role:
             try: await member.add_roles(role)
+            except: pass
+
+        # Suppression du rôle Non-Enregistré (ou autre) ID: 1137520837361156096
+        role_to_remove = interaction.guild.get_role(1137520837361156096)
+        if role_to_remove:
+            try: await member.remove_roles(role_to_remove)
             except: pass
         
         embed = interaction.message.embeds[0]
